@@ -19,9 +19,11 @@
 %% under the License.
 %%
 %% -------------------------------------------------------------------
+%% Note: This is nearly a 1:1 copy of riak_kv_wm_stats
 
 -module(riak_kv_wm_search_stats).
--author('Andy Gross <andy@basho.com>').
+%%-author('Andy Gross <andy@basho.com>').
+-author('Jon Glick <jglick@basho.com>').
 
 %% webmachine resource exports
 -export([
