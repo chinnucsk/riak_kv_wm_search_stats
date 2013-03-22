@@ -1,0 +1,40 @@
+diff --git a/src/riak_kv.app.src b/src/riak_kv.app.src
+index 43aa47b..f4f84ae 100644
+--- a/src/riak_kv.app.src
++++ b/src/riak_kv.app.src
+@@ -22,6 +22,7 @@
+   {env, [
+          %% Endpoint for system stats HTTP provider
+          {stats_urlpath, "stats"},
++	 {search_stats_urlpath, "search_stats"},
+ 
+          %% Secondary code paths
+          {add_paths, []},
+diff --git a/src/riak_kv_web.erl b/src/riak_kv_web.erl
+index c665727..8c46b5d 100644
+--- a/src/riak_kv_web.erl
++++ b/src/riak_kv_web.erl
+@@ -36,6 +36,7 @@
+ dispatch_table() ->
+     MapredProps = mapred_props(),
+     StatsProps = stats_props(),
++    SearchStatsProps = search_stats_props(),
+ 
+     lists:append(
+       raw_dispatch(),
+@@ -43,6 +44,8 @@ dispatch_table() ->
+         riak_kv_wm_mapred, MapredProps},
+        {[proplists:get_value(prefix, StatsProps)],
+         riak_kv_wm_stats, StatsProps},
++       {[proplists:get_value(prefix, SearchStatsProps)],
++        riak_kv_wm_search_stats, SearchStatsProps},
+        {["ping"], riak_kv_wm_ping, []}]).
+ 
+ raw_dispatch() ->
+@@ -115,3 +118,6 @@ mapred_props() ->
+ 
+ stats_props() ->
+     [{prefix, app_helper:get_env(riak_kv, stats_urlpath, "stats")}].
++
++search_stats_props() ->
++    [{prefix, app_helper:get_env(riak_kv, search_stats_urlpath, "search_stats")}].
